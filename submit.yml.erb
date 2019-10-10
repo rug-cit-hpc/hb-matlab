@@ -1,0 +1,10 @@
+---
+batch_connect:
+  template: vnc
+script:
+  queue_name: <%= custom_queue %>
+  native:
+    - "--gres"
+    - "<%= if custom_queue == 'gpu' then 'gpu:1' else '' end %>"
+    - "-c"
+    - "<%= num_cores.blank? ? 1 : num_cores.to_i %>"
