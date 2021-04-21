@@ -1,24 +1,52 @@
+<%-
+  # Get Partitions
+  cmd = "sinfo -ho %R"
+  begin
+    output, status = Open3.capture2e(cmd)
+    if status.success?
+      partitions = output.split("\n").map(&:strip).reject(&:blank?).sort
+    else
+      raise output
+    end
+  rescue => e
+    partitions = []
+    error = e.message.strip
+  end
+-%>
+
 ---
 cluster: "peregrine"
+
 form:
   - version
   - custom_queue
-  - bc_num_hours
+  - wall_time
   - bc_num_slots
   - num_cores
   - node_type
   - bc_vnc_resolution
+  - memory
 #   - bc_email_on_started
+
 attributes:
+  wall_time:
+    label: Wall Time
+    help: "Please give the wall time in the SLURM format, D:HH:MM:SS"
+    widget: "text_field"
+  
   custom_queue:
     label: Partition
-    help: Please select a partition from the drop-down.
+    help: Please select a partition from the drop-down menu.
+    <%- if partitions.blank? -%>
+    widget: text_field
+    <%- else -%>
     widget: select
     options:
-      - [ "Regular", "regular" ]
-      - [ "GPU", "gpu" ]
-      - [ "High memory", "himem" ]
-    #   - [ "Short", "short" ]
+    <%- partitions.each do |q| -%>
+      - [ "<%= q %>", "<%= q %>" ]
+    <%- end -%>
+    <%- end -%>
+  
   num_cores:
     widget: "number_field"
     label: "Number of cores"
@@ -47,10 +75,19 @@ attributes:
 #       - [ "GPU",     "gpu"            ]
 #       - [ "himem", "himem"    ]
   version:
-    widget: select
     label: "MATLAB version"
     help: "This defines the version of MATLAB you want to load."
+    widget: select
     options:
-      - [ "R2018a", "MATLAB/2018a" ]
-      - [ "R2017b", "MATLAB/2017b-GCC-4.9.3-2.25" ]
-      - [ "R2016b", "MATLAB/2016b-GCC-4.9.3-2.25" ]
+      - [ "2020b", "MATLAB/2020b" ]
+      - [ "2019b", "MATLAB/2019b" ]
+      - [ "2018a", "MATLAB/2018a" ]
+
+  memory:
+    label: Memory
+    help: Amount of memory per CPU requested, in GB
+    widget: 'number_field'
+    value: 2
+    min: 1
+    max: 128
+    step: 1

@@ -1,6 +1,6 @@
 ---
 batch_connect:
-  template: vnc
+  template: "vnc"
 script:
   queue_name: <%= custom_queue %>
   native:
@@ -8,3 +8,7 @@ script:
     - "<%= if custom_queue == 'gpu' then 'gpu:1' else '' end %>"
     - "-c"
     - "<%= num_cores.blank? ? 1 : num_cores.to_i %>"
+    - "-t"
+    - "<%= wall_time %>"
+    - "--mem"
+    - "<%= memory.blank? ? 2000 : memory.to_i * 1000 %>"
