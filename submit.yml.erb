@@ -4,8 +4,10 @@ batch_connect:
 script:
   queue_name: <%= custom_queue %>
   native:
-    - "--gres"
-    - "<%= if custom_queue == 'gpu' then 'gpu:1' else '' end %>"
+    <%- if custom_queue == 'gpu' -%>
+    - '--gres'
+    - 'gpu:1'
+    <%- end -%>
     - "-c"
     - "<%= num_cores.blank? ? 1 : num_cores.to_i %>"
     - "-t"
