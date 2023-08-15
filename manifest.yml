@@ -3,6 +3,6 @@ name: MATLAB
 category: Interactive Apps
 subcategory: GUIs
 role: batch_connect
-description: "This app will launch a [MATLAB] GUI on the [Peregrine cluster]. You
+description: "This app will launch a [MATLAB] GUI on the [Habrok cluster]. You
   will be able\r\nto interact with the MATLAB GUI through a VNC session.\r\n\r\n[MATLAB]:
-  https://www.mathworks.com/products/matlab.html\r\n[Peregrine cluster]: https://redmine.hpc.rug.nl/redmine/projects/peregrine\r\n"
+  https://www.mathworks.com/products/matlab.html\r\n[Habrok cluster]: https://wiki.hpc.rug.nl/habrok/start\r\n"
