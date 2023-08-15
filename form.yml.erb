@@ -1,16 +1,14 @@
 <%-
     paths = []
-    paths << Pathname.new("/home/#{User.new.name}")
-    paths << Pathname.new("/data/#{User.new.name}")
     paths << Pathname.new("/scratch/#{User.new.name}")
 
-    projects = User.new.groups.map(&:name).grep(/^pg-./)
+    projects = User.new.groups.map(&:name).grep(/^hb-./)
 
-    paths.concat projects.map { |p| Pathname.new("/data/#{p}")  }
+    paths.concat projects.map { |p| Pathname.new("/scratch/#{p}")  }
 -%>
 
 ---
-cluster: "peregrine"
+cluster: "login1"
 
 form:
   - node_type
@@ -18,8 +16,6 @@ form:
   - walltime
   - num_cores
   - memory
-  - pg_email_on_started
-  - pg_email_user
   - bc_vnc_resolution
 
 attributes:
@@ -27,19 +23,46 @@ attributes:
     label: Node Type
     help: |
       Select the type of node you would like to use. For information on the different options, please see 
-      [our wiki](https://wiki.hpc.rug.nl/peregrine/introduction/cluster_description#compute_nodes)
+      [our wiki](https://wiki.hpc.rug.nl/habrok/introduction/cluster_description#compute_nodes)
     widget: select
     options:
       - [ "Regular", "regular" ]
       - [ "Himem", "himem" ]
-      - [ "GPU (K40)", "gpuk40" ]
-      - [ "GPU (V100)", "gpuv100" ]
+      - [ "GPU (A100_1)", "gpua100" ]
+      - [ "GPU (A100_2)", "gpua100.20gb" ]
       - [ "GELIFES", "gelifes" ]
+      - [ "GPU (V100)", "gpuv100" ]
+
+  version:
+    widget: "select"
+    label: "MATLAB version"
+    help: |
+      Select one of the MATLAB versions from the dropdown.
+    options:
+      - [   "2022b-r5", "MATLAB/2022b-r5",
+            data-option-for-node-type-gpua100: false,
+            data-option-for-node-type-gpua100.20gb: false,
+            data-option-for-node-type-gpuv100: false
+        ]
+      - [   "2020b-r5 (GPU)", "MATLAB/2022b-r5 CUDA/11.7.0",
+            data-option-for-node-type-regular: false, 
+            data-option-for-node-type-himem: false, 
+            # data-option-for-node-type-parallel: false,
+            data-option-for-node-type-gelifes: false
+        ]
 
   walltime:
     label: Wall time
     help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
     widget: "text_field"
+
+  memory:
+    label: Memory
+    help: Amount of memory requested, in GB
+    widget: 'number_field'
+    value: 2
+    min: 1
+    step: 1
   
   num_cores:
     widget: number_field
@@ -50,62 +73,7 @@ attributes:
       Select the number of CPU cores.
     min: 1
     step: 1
-
-  pg_email_on_started:
-    label: "Email notification"
-    help: |
-      Would you like to be notified via email when your session starts?
-    widget: "select"
-    options:
-      - ["No", "no", data-hide-pg-email-user: true]
-      - ["Yes", "yes"]
-
-  pg_email_user:
-    label: Email
-    help: "Your email for notifications"
-    widget: "text_field"
+    max: 128
 
   bc_vnc_resolution:
     required: true
-
-  version:
-    widget: "select"
-    label: "MATLAB version"
-    help: |
-      Select one of the MATLAB versions from the dropdown.
-    options:
-      - [   "2020b", "MATLAB/2020b GLib/2.69.1-GCCcore-11.2.0",
-            data-option-for-node-type-gpuk40: false, 
-            data-option-for-node-type-gpuv100: false
-        ]
-      - [   "2020b (GPU)", "MATLAB/2020b GLib/2.69.1-GCCcore-11.2.0 CUDA/11.4.1",
-            data-option-for-node-type-regular: false, 
-            data-option-for-node-type-himem: false,
-            data-option-for-node-type-gelifes: false
-        ]
-      - [ "2019b", "MATLAB/2019b",
-            data-option-for-node-type-gpuk40: false, 
-            data-option-for-node-type-gpuv100: false
-        ]
-      - [ "2019b (GPU)", "MATLAB/2019b CUDA/11.4.1",
-            data-option-for-node-type-regular: false, 
-            data-option-for-node-type-himem: false,
-            data-option-for-node-type-gelifes: false
-        ]
-      - [ "2018a", "MATLAB/2018a",
-            data-option-for-node-type-gpuk40: false, 
-            data-option-for-node-type-gpuv100: false
-        ]
-      - [ "2018a (GPU)", "MATLAB/2018a CUDA/11.4.1" ,
-            data-option-for-node-type-regular: false, 
-            data-option-for-node-type-himem: false,
-            data-option-for-node-type-gelifes: false
-        ]
-
-  memory:
-    label: Memory
-    help: Amount of memory requested, in GB
-    widget: 'number_field'
-    value: 2
-    min: 1
-    step: 1
