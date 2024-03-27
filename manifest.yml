@@ -6,3 +6,5 @@ role: batch_connect
 description: "This app will launch a [MATLAB] GUI on the [Habrok cluster]. You
   will be able\r\nto interact with the MATLAB GUI through a VNC session.\r\n\r\n[MATLAB]:
   https://www.mathworks.com/products/matlab.html\r\n[Habrok cluster]: https://wiki.hpc.rug.nl/habrok/start\r\n"
+version: 0.1
+icon: ''
