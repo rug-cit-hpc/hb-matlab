@@ -28,10 +28,8 @@ attributes:
     options:
       - [ "Regular", "regular" ]
       - [ "Himem", "himem" ]
-      - [ "GPU (A100_1)", "gpua100" ]
-      - [ "GPU (A100_2)", "gpua100.20gb" ]
+      - [ "GPU (A100)", "gpua100" ]
       - [ "GPU (V100)", "gpuv100" ]
-      - [ "GELIFES", "gelifes" ]
 
   version:
     widget: "select"
@@ -41,7 +39,6 @@ attributes:
     options:
       - [   "2022b-r5", "MATLAB/2022b-r5",
             data-option-for-node-type-gpua100: false,
-            data-option-for-node-type-gpua100.20gb: false,
             data-option-for-node-type-gpuv100: false
         ]
       - [   "2020b-r5 (GPU)", "MATLAB/2022b-r5 CUDA/11.7.0",
