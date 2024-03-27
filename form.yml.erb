@@ -13,7 +13,7 @@ cluster: "login1"
 form:
   - node_type
   - version
-  - walltime
+  - num_hours
   - num_cores
   - memory
   - bc_vnc_resolution
@@ -29,7 +29,6 @@ attributes:
       - [ "Regular", "regular" ]
       - [ "Himem", "himem" ]
       - [ "GPU (A100)", "gpua100" ]
-      - [ "GELIFES", "gelifes" ]
       - [ "GPU (V100)", "gpuv100" ]
 
   version:
@@ -40,20 +39,21 @@ attributes:
     options:
       - [   "2022b-r5", "MATLAB/2022b-r5",
             data-option-for-node-type-gpua100: false,
-            data-option-for-node-type-gpua100.20gb: false,
             data-option-for-node-type-gpuv100: false
         ]
       - [   "2020b-r5 (GPU)", "MATLAB/2022b-r5 CUDA/11.7.0",
             data-option-for-node-type-regular: false, 
             data-option-for-node-type-himem: false, 
-            # data-option-for-node-type-parallel: false,
-            data-option-for-node-type-gelifes: false
         ]
 
-  walltime:
-    label: Wall time
-    help: "Please give the wall time in the SLURM format, D-HH:MM:SS"
-    widget: "text_field"
+  num_hours:
+    label: Number of hours
+    widget: 'number_field'
+    help: "Please give the maximum wall time in hours"
+    value: 2
+    min: 1
+    step: 1
+    max: 12
 
   memory:
     label: Memory
@@ -62,7 +62,7 @@ attributes:
     value: 2
     min: 1
     step: 1
-  
+
   num_cores:
     widget: number_field
     label: Number of CPU cores
