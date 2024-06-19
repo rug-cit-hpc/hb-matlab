@@ -20,15 +20,11 @@ mate-panel &
 
 # Load the required environment
 module load <%= context.auto_modules_MATLAB %>
-
-# Launch MATLAB
 <%- if has_gpu -%>
 module load CUDA/11.7.0
-module list
-set -x
-vglrun matlab -desktop -nosoftwareopengl
-<%- else -%>
-module list
-set -x
-matlab -desktop
 <%- end -%>
+module list
+set -x
+
+# Launch MATLAB
+matlab -desktop
