@@ -1,3 +1,6 @@
+# Repository moved
+The repository for this project has moved to https://gitrepo.service.rug.nl/cit-hpc/habrok/hb-matlab.
+
 # Batch Connect - OSC MATLAB
 
 ![GitHub Release](https://img.shields.io/github/release/osc/bc_osc_matlab.svg)
